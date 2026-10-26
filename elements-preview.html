@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Personal element options | Affan Basra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<link rel="stylesheet" href="styles.css?v=4">
+<style>
+.opt{padding-block:56px;border-top:1px solid var(--line)}
+.opt:first-of-type{border-top:0}
+.opt-label{font-size:.95rem;font-weight:600;color:var(--accent);margin-bottom:8px}
+.opt-note{color:var(--muted);max-width:60ch;margin:10px 0 28px}
+
+/* ---------- Option 1: live pipeline ---------- */
+.pipe{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 28px 22px}
+.pipe-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;align-items:baseline;margin-bottom:26px}
+.pipe-top b{font-family:var(--serif);font-weight:500;font-size:1.35rem}
+.pipe-count{font-size:.92rem;color:var(--muted)}
+.pipe-count span{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.track{position:relative;height:70px}
+.track .line{position:absolute;left:24px;right:24px;top:22px;height:2px;background:var(--line)}
+.node{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2}
+.node i{width:46px;height:46px;border-radius:50%;background:var(--surface);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:border-color .2s, color .2s, background .2s}
+.node i svg{width:20px;height:20px}
+.node span{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.node.check i{border-color:var(--accent);color:var(--accent)}
+.node.db i{border-color:var(--ink);color:var(--ink)}
+.node.flash i{background:var(--accent-soft)}
+.node.block i{border-color:#c2410c;color:#c2410c;background:#fdf0e8}
+.dot{position:absolute;top:18px;left:24px;width:10px;height:10px;border-radius:50%;background:var(--accent);z-index:1}
+.dot.bad{background:#c2410c}
+.pipe-log{margin-top:18px;min-height:1.4em;font-family:"JetBrains Mono", ui-monospace, monospace;font-size:.8rem;color:var(--muted)}
+.pipe-log .err{color:#c2410c}
+
+/* ---------- Option 2: query card ---------- */
+.q{background:var(--ink);color:#dfe7e2;border-radius:var(--r-lg);overflow:hidden;max-width:720px;font-family:"JetBrains Mono", ui-monospace, monospace;font-size:.92rem;line-height:1.65}
+.q-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #2a3832;font-family:var(--sans);font-size:.82rem;color:#93a39b}
+.q-bar i{width:10px;height:10px;border-radius:50%;background:#3a4a43}
+.q-bar span{margin-left:8px}
+.q-bar button{margin-left:auto;background:transparent;border:1px solid #3a4a43;color:#cfd9d3;border-radius:999px;padding:4px 12px;font:500 .8rem var(--sans);cursor:pointer}
+.q-bar button:hover{border-color:#cfd9d3}
+.q-body{padding:20px 22px 22px;min-height:330px;overflow-x:auto}
+.q-prompt{color:#7fd1ae}
+.q-cursor{display:inline-block;width:.6em;height:1.1em;background:#7fd1ae;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.q-out{white-space:pre;margin:12px 0 0;color:#dfe7e2}
+.q-out .k{color:#93a39b}
+.q-out .hi{color:#fff}
+.q-out .muted2{color:#6f8078}
+@media (prefers-reduced-motion: reduce){.q-cursor{animation:none}}
+@media (max-width:680px){
+  .pipe{padding:22px 16px 18px}
+  .node i{width:40px;height:40px}
+  .node span{font-size:.72rem}
+  .q{font-size:.78rem}
+  .q-body{padding:16px;min-height:280px}
+}
+</style>
+</head>
+<body>
+<main>
+<div class="wrap">
+
+  <section class="opt">
+    <div class="opt-label">Option 1</div>
+    <h2>Live pipeline</h2>
+    <p class="opt-note">Would sit right under the hero. Rows flow from an API into Postgres. Every so often a bad row gets stopped at the checks, like your real pipelines.</p>
+
+    <div class="pipe" id="pipe">
+      <div class="pipe-top">
+        <b>What I build, running live</b>
+        <div class="pipe-count"><span id="ok">0</span> rows loaded, <span id="bad">0</span> bad <span id="badw">rows</span> blocked</div>
+      </div>
+      <div class="track" id="track">
+        <div class="line"></div>
+        <div class="node" data-at="0" style="left:24px"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h4l3-8 4 16 3-8h2"/></svg></i><span>Sports API</span></div>
+        <div class="node" data-at=".333"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg></i><span>Transform</span></div>
+        <div class="node check" data-at=".666" id="checks"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></i><span>Checks</span></div>
+        <div class="node db" data-at="1" id="db"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></i><span>PostgreSQL</span></div>
+      </div>
+      <div class="pipe-log" id="log">waiting for first run...</div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="opt-label">Option 2</div>
+    <h2>Query card</h2>
+    <p class="opt-note">Would sit in the Experience section, or under the hero on its own. It types a SQL query about you and prints the result. You can change any row.</p>
+
+    <div class="q" id="q">
+      <div class="q-bar"><i></i><i></i><i></i><span>psql: affan@portfolio</span><button type="button" id="replay">Run again</button></div>
+      <div class="q-body"><div><span class="q-prompt">portfolio=#</span> <span id="typed"></span><span class="q-cursor" id="cursor"></span></div><div class="q-out" id="out"></div></div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<script>
+/* Option 1 */
+(function(){
+  var track=document.getElementById('track'), okEl=document.getElementById('ok'), badEl=document.getElementById('bad'),
+      log=document.getElementById('log'), checks=document.getElementById('checks'), db=document.getElementById('db'),
+      ok=0, bad=0, n=0, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nodes=track.querySelectorAll('.node');
+  function layout(){
+    var w=track.clientWidth-48;
+    nodes.forEach(function(nd){ nd.style.left=(24+w*parseFloat(nd.dataset.at))+'px'; });
+    return w;
+  }
+  var W=layout(); addEventListener('resize',function(){ W=layout(); });
+  var errors=['null player_id','duplicate game_id','points < 0','missing team'];
+  function flash(el,cls){ el.classList.add(cls); setTimeout(function(){ el.classList.remove(cls); },350); }
+  function spawn(){
+    n++;
+    var isBad = n%7===0, d=document.createElement('div');
+    d.className='dot'+(isBad?' bad':''); track.appendChild(d);
+    var end = isBad ? W*.666-5 : W-5;
+    var a=d.animate([{transform:'translateX(-5px)'},{transform:'translateX('+end+'px)'}],{duration:isBad?1700:2600,easing:'linear',fill:'forwards'});
+    a.onfinish=function(){
+      if(isBad){
+        bad++; badEl.textContent=bad; document.getElementById('badw').textContent=bad===1?'row':'rows'; flash(checks,'block');
+        log.innerHTML='<span class="err">blocked: '+errors[bad%errors.length]+'</span>, row never reached the client table';
+        d.animate([{opacity:1,transform:'translateX('+end+'px) scale(1)'},{opacity:0,transform:'translateX('+end+'px) translateY(18px) scale(.6)'}],{duration:500,fill:'forwards'}).onfinish=function(){d.remove();};
+      } else {
+        ok++; okEl.textContent=ok.toLocaleString(); flash(db,'flash');
+        if(ok%5===0) log.textContent='loaded batch '+(ok/5)+', all schema checks passed';
+        d.remove();
+      }
+    };
+  }
+  if(reduce){ okEl.textContent='10,000+'; badEl.textContent='0 reached clients'; log.textContent='daily and weekly runs, checks on every load'; return; }
+  var timer=null;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !timer){ spawn(); timer=setInterval(spawn,520); }
+      else if(!e.isIntersecting && timer){ clearInterval(timer); timer=null; }
+    });
+  }).observe(track);
+})();
+
+/* Option 2 */
+(function(){
+  var query='SELECT * FROM affan;';
+  var rows=[
+    ['role','Data engineer, ML on the side'],
+    ['based_in','Lahore, Pakistan'],
+    ['ships','Pipelines, Postgres, LLM tools'],
+    ['clients','StatRankings, DFS Army'],
+    ['studying','BS Data Science, NUST (2027)'],
+    ['fuel','chai'],
+    ['status','open to work']
+  ];
+  var typed=document.getElementById('typed'), out=document.getElementById('out'), cursor=document.getElementById('cursor'), busy=false;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function pad(s,n){ while(s.length<n) s+=' '; return s; }
+  function table(){
+    var kw=8, vw=0; rows.forEach(function(r){ kw=Math.max(kw,r[0].length); vw=Math.max(vw,r[1].length); });
+    var h=' '+pad('key',kw)+' | '+pad('value',vw)+'\n'+'-'.repeat(kw+2)+'+'+'-'.repeat(vw+2)+'\n';
+    var html='<span class="k">'+h+'</span>';
+    return {html:html, kw:kw, vw:vw};
+  }
+  function run(){
+    if(busy) return; busy=true; typed.textContent=''; out.innerHTML=''; cursor.style.display='inline-block';
+    var t=table(), i=0;
+    function type(){
+      if(i<query.length){ typed.textContent+=query[i++]; setTimeout(type, reduce?0:55+Math.random()*50); return; }
+      cursor.style.display='none';
+      out.innerHTML=t.html; var r=0;
+      (function line(){
+        if(r<rows.length){
+          out.innerHTML+=' <span class="k">'+pad(rows[r][0],t.kw)+'</span> | <span class="hi">'+rows[r][1]+'</span>\n';
+          r++; setTimeout(line, reduce?0:110); return;
+        }
+        out.innerHTML+='<span class="muted2">('+rows.length+' rows)</span>';
+        busy=false;
+      })();
+    }
+    setTimeout(type, reduce?0:400);
+  }
+  document.getElementById('replay').addEventListener('click',run);
+  var started=false;
+  new IntersectionObserver(function(es){ if(es[0].isIntersecting && !started){ started=true; run(); } },{threshold:.4}).observe(document.getElementById('q'));
+})();
+</script>
+</body>
+</html>

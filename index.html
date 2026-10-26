@@ -1,472 +1,318 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Affan Basra, data and ML engineer. ETL pipelines, PostgreSQL, AWS and LLM data tools. Available for freelance projects and long-term roles.">
-<title>Affan Basra Portfolio</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Affan Basra, data and ML engineer. I build the data pipelines and ML systems products run on: ETL, PostgreSQL, AWS and LLM agents. Available for freelance projects and long-term roles.">
+<meta name="theme-color" content="#f4f5f2">
+<title>Affan Basra, Data and ML Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<style>
-/* Layout: dark-first hiring portfolio. Sticky nav, hero with photo beside the pitch, highlight cards with thumbnails, numbers, case studies, ways to work, experience timeline, contact. */
-:root{
-  --bg:#0e1420; --surface:#151d2c; --raise:#1b2537; --ink:#eef1f6; --muted:#9aa6ba; --line:#263247;
-  --accent:#f2a93b; --accent-ink:#1a1206; --accent-soft:#2a2216; --pass:#6fd39b; --nav:rgba(14,20,32,.88); --shadow:rgba(0,0,0,.45);
-  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --body:"Figtree", "Segoe UI", system-ui, sans-serif;
-  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
-  --dstretch:100%; --dw:800; --dls:-0.02em;
-  color-scheme:dark;
-}
-@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
-  --bg:#f6f7f9; --surface:#ffffff; --raise:#eef1f5; --ink:#141b27; --muted:#5a6578; --line:#dde2ea;
-  --accent:#b66a00; --accent-ink:#ffffff; --accent-soft:#fbefdc; --pass:#1f7a4d; --nav:rgba(246,247,249,.9); --shadow:rgba(20,27,39,.14); color-scheme:light }}
-:root[data-theme="light"]{
-  --bg:#f6f7f9; --surface:#ffffff; --raise:#eef1f5; --ink:#141b27; --muted:#5a6578; --line:#dde2ea;
-  --accent:#b66a00; --accent-ink:#ffffff; --accent-soft:#fbefdc; --pass:#1f7a4d; --nav:rgba(246,247,249,.9); --shadow:rgba(20,27,39,.14); color-scheme:light }
-
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--nav)}
-.pad{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
-.wrap{max-width:1080px;margin:0 auto}
-main .wrap{display:flex;flex-direction:column;gap:96px;padding-block:56px 72px}
-a{color:var(--accent);text-underline-offset:3px}
-a:focus-visible,.btn:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
-h1,h2,h3{font-family:var(--display);font-stretch:var(--dstretch);text-wrap:balance;margin:0;line-height:1.08}
-h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:var(--dw);letter-spacing:var(--dls)}
-h1 em{font-style:normal;color:var(--accent)}
-h2{font-size:clamp(1.55rem,2.8vw,2.15rem);font-weight:var(--dw)}
-h3{font-size:1.08rem;font-weight:600;line-height:1.3}
-p{margin:0}
-.label{font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.lead{font-size:1.1rem;color:var(--muted);max-width:60ch}
-.muted{color:var(--muted)}
-section{display:flex;flex-direction:column;gap:28px;scroll-margin-top:84px;border-top:1px solid var(--line);padding-top:56px}
-main .wrap{gap:56px!important}
-.head{display:flex;flex-direction:column;gap:10px;max-width:66ch}
-
-/* nav */
-nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;gap:16px;padding-block:14px}
-nav .navlinks{margin-left:auto}
-.themebtn{display:inline-flex;align-items:center;gap:6px;background:var(--raise);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:500 .82rem var(--body);cursor:pointer}
-.brand{font-family:var(--display);font-stretch:var(--dstretch);font-weight:var(--dw);text-decoration:none;color:var(--ink);white-space:nowrap}
-.navlinks{display:flex;gap:20px;flex-wrap:wrap;font-size:.92rem}
-.navlinks a{color:var(--muted);text-decoration:none}
-.navlinks a:hover{color:var(--ink)}
-
-/* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1fr) clamp(170px,24vw,280px);gap:clamp(24px,4vw,48px);align-items:center}
-.hero-text{display:flex;flex-direction:column;gap:22px;min-width:0}
-.idrow{display:none}
-.avail{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.8rem;color:var(--muted)}
-.avail::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pass);flex:none}
-.actions{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-flex;align-items:center;padding:12px 20px;border-radius:999px;font-weight:600;text-decoration:none;font-size:.95rem;transition:transform .15s ease}
-.btn:hover{transform:translateY(-2px)}
-.btn-primary{background:var(--accent);color:var(--accent-ink)}
-.btn-ghost{border:1px solid var(--line);color:var(--ink)}
-.photo{width:100%;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 20px 50px var(--shadow)}
-.photo img{width:100%;height:100%;object-fit:cover;display:block}
-
-/* highlights */
-.hl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.hl a{display:flex;flex-direction:column;height:100%;background:var(--surface);text-decoration:none;color:var(--ink);position:relative;transition:background .18s ease}
-.hl a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
-.hl a:hover{background:var(--raise)}
-.hl a:hover::after{transform:scaleX(1)}
-.thumb{border-bottom:1px solid var(--line)}
-.thumb.logo{background:#fff}
-.thumb{aspect-ratio:16/10;background:var(--raise);overflow:hidden;position:relative}
-.thumb img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block;transition:transform .3s ease}
-.hl a:hover .thumb img{transform:scale(1.04)}
-.thumb.edu{display:flex;flex-direction:column;justify-content:flex-end;padding:16px;background:linear-gradient(135deg,var(--accent-soft),var(--raise))}
-.thumb.edu b{font-family:var(--display);font-stretch:var(--dstretch);font-size:2.4rem;font-weight:var(--dw);color:var(--accent);line-height:1}
-.thumb.edu span{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
-.hl .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
-.hl .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.hl .t{font-family:var(--display);font-stretch:var(--dstretch);font-weight:var(--dw);font-size:1.05rem;line-height:1.25}
-.hl .d{color:var(--muted);font-size:.9rem}
-.hl .go{margin-top:auto;padding-top:6px;font-size:.85rem;color:var(--accent)}
-
-/* stats */
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.stat{display:flex;flex-direction:column;gap:6px;padding-top:14px;border-top:2px solid var(--accent)}
-.num{font-family:var(--display);font-stretch:var(--dstretch);font-size:clamp(1.5rem,2.6vw,2rem);font-weight:var(--dw);font-variant-numeric:tabular-nums;line-height:1.1}
-.stat p{color:var(--muted);font-size:.92rem}
-
-/* case studies */
-.cases{display:flex;flex-direction:column;gap:28px}
-.case{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px;scroll-margin-top:84px}
-.case-text{display:flex;flex-direction:column;gap:16px;min-width:0}
-.case h3{font-size:1.45rem;font-weight:800}
-.meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:.76rem;color:var(--muted)}
-.meta span + span::before{content:"·";margin-right:14px;color:var(--line)}
-.case dl{margin:0;display:flex;flex-direction:column;gap:12px}
-.case dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.case dd{margin:2px 0 0}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{font-family:var(--mono);font-size:.74rem;color:var(--ink);background:var(--raise);padding:4px 10px;border-radius:999px}
-.result{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.result b{font-family:var(--display);font-stretch:var(--dstretch);font-size:1.3rem;color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
-.figure{margin:0;background:var(--raise);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0;align-self:start}
-.figure img{width:100%;height:auto;border-radius:8px;display:block;border:1px solid var(--line)}
-.figure img + img{width:72%;margin:-18% 0 0 auto;position:relative;box-shadow:0 12px 32px var(--shadow)}
-.figure .cap{font-family:var(--mono);font-size:.72rem;color:var(--muted);padding:2px 4px}
-.links-row{display:flex;flex-wrap:wrap;gap:16px;font-size:.95rem}
-table{border-collapse:collapse;width:100%;font-size:.92rem}
-th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
-th{font-family:var(--mono);font-size:.72rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-td.fast{color:var(--pass);font-weight:600}
-
-/* ways to work */
-.ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.way{background:var(--surface);padding:26px;display:flex;flex-direction:column;gap:12px;transition:background .18s ease}
-.way:hover{background:var(--raise)}
-.way.main{box-shadow:inset 0 3px 0 var(--accent)}
-.way .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.way h3{font-size:1.3rem;font-weight:800}
-.way p{color:var(--muted)}
-.way ul{margin:0;padding-left:18px;color:var(--muted);display:flex;flex-direction:column;gap:4px;font-size:.94rem}
-.way .btn{margin-top:auto;align-self:flex-start}
-
-/* quotes */
-.quotes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.quote{margin:0;background:var(--surface);padding:28px;display:flex;flex-direction:column;gap:18px;position:relative}
-.quote::before{content:"\201C";font-family:var(--display);font-size:4rem;line-height:.6;color:var(--accent);height:24px}
-.quote blockquote{margin:0;font-size:1.08rem;line-height:1.55}
-.quote figcaption{margin-top:auto;display:flex;flex-direction:column;gap:2px}
-.quote figcaption span{color:var(--muted);font-size:.88rem}
-/* how I work */
-.howgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.howgrid > div{background:var(--surface);padding:22px;display:flex;flex-direction:column;gap:8px}
-.howgrid .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.howgrid p{color:var(--muted);font-size:.94rem}
-.cvbtn{align-self:flex-start}
-@media (max-width:900px){.quotes{grid-template-columns:1fr}.howgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:600px){.howgrid{grid-template-columns:1fr}}
-
-/* about / experience */
-.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:40px}
-.about-text{display:flex;flex-direction:column;gap:16px;min-width:0}
-.cv{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.cv li{position:relative;padding:0 0 26px 30px;display:flex;flex-direction:column;gap:4px}
-.cv li::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--line)}
-.cv li:first-child::before{top:8px}
-.cv li:last-child::before{bottom:auto;height:8px}
-.cv li::after{content:"";position:absolute;left:0;top:2px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
-.cv .when{font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:18px}
-.cv p{color:var(--muted);font-size:.95rem}
-.skills{display:flex;flex-direction:column;gap:10px}
-
-/* contact */
-.availbar{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:.82rem;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
-.availbar span{display:inline-flex;align-items:center;gap:8px}
-.availbar span:first-child::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pass)}
-.contact{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.ccard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.ccard .k{font-family:var(--mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.ccard .v{font-weight:600;overflow-wrap:anywhere;user-select:all}
-.copy{align-self:flex-start;background:var(--raise);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;cursor:pointer;font-family:inherit}
-footer{color:var(--muted);font-size:.85rem;padding-block:0 40px}
-
-@media (max-width:900px){
-  .hl{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .case,.about{grid-template-columns:1fr}
-  .ways{grid-template-columns:1fr}
-  .contact{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media (max-width:640px){
-  .navlinks{display:none}
-  .hero{grid-template-columns:1fr}
-  .hero > .photo{display:none}
-  .idrow{display:flex;align-items:center;gap:14px}
-  .idrow img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);flex:none}
-  .idrow b{font-family:var(--display);font-stretch:var(--dstretch);font-size:1.15rem;display:block}
-  .stats{grid-template-columns:1fr}
-  .hl,.contact{grid-template-columns:1fr}
-  .case{padding:22px}
-  main .wrap{gap:72px;padding-block:32px 56px}
-}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
-<nav class="pad" aria-label="Main">
+<nav class="nav" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#top">Affan Basra</a>
     <div class="navlinks">
-      <a href="#highlights">Highlights</a><a href="#work">Work</a><a href="#hire">Work with me</a><a href="#how">How I work</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+      <a href="#work">Work</a><a href="#hire">Work with me</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
     </div>
-    <button class="themebtn" type="button" id="themebtn" aria-label="Switch light or dark mode"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg><span id="themelabel">Light</span></button>
+    <ul class="social nav-social">
+      <li><a href="https://www.linkedin.com/in/affan-basra-3038372a6" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.064 2.064 0 1 1 0-4.128 2.064 2.064 0 0 1 0 4.128zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a></li>
+      <li class="opt"><a href="https://www.upwork.com/freelancers/~01e896744d765ada66" target="_blank" rel="noopener" aria-label="Upwork"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg></a></li>
+      <li><a href="https://github.com/AffanBasra" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+      <li class="opt"><a href="https://x.com/AffanBasra12" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a></li>
+      <li class="opt"><a href="mailto:affanbasra12@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg></a></li>
+    </ul>
+    <a class="btn btn-ghost nav-cv" href="Affan_Basra_Resume.pdf" target="_blank" rel="noopener">CV</a>
+    <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <div class="wrap">
+      <a href="#work">Work</a><a href="#hire">Work with me</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+      <a class="btn btn-primary" href="Affan_Basra_Resume.pdf" target="_blank" rel="noopener">Download CV</a>
+      <ul class="social">
+      <li><a href="https://www.linkedin.com/in/affan-basra-3038372a6" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.064 2.064 0 1 1 0-4.128 2.064 2.064 0 0 1 0 4.128zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a></li>
+      <li><a href="https://www.upwork.com/freelancers/~01e896744d765ada66" target="_blank" rel="noopener" aria-label="Upwork"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg></a></li>
+      <li><a href="https://github.com/AffanBasra" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+      <li><a href="https://x.com/AffanBasra12" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a></li>
+      <li><a href="mailto:affanbasra12@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg></a></li>
+    </ul>
+    </div>
   </div>
 </nav>
 
-<main class="pad" id="top">
-<div class="wrap">
+<main id="top">
 
-  <header class="hero">
-    <div class="hero-text">
-      <div class="idrow"><img src="affan.webp" alt="Affan Basra"><div><b>Affan Basra</b><span class="muted">Data and ML engineer</span></div></div>
-      <span class="avail">Available for freelance projects and long-term roles</span>
-      <h1>Data engineer for hire. I build the <em>pipelines and databases</em> products run on.</h1>
-      <p class="lead">1.5 years building production data pipelines and ML and LLM systems, including 14 months of contract pipelines for two US sports data companies. Data Science at NUST, based in Islamabad.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#hire">Hire me for a project</a>
-        <a class="btn btn-ghost" href="#experience">Hiring for a role? See my experience</a>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-text">
+        <div class="idrow">
+          <img src="affan.webp" alt="" width="640" height="800">
+          <div><b>Data and ML engineer</b><span>Based in Lahore, Pakistan</span>
+            <button class="intro-pill js-play" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Watch 60-sec intro</button></div>
+        </div>
+        <span class="avail">Open to freelance projects and long-term roles</span>
+        <h1>I build the data pipelines and ML systems products run on.</h1>
+        <p class="lead">1.5 years building production pipelines for two US sports data companies, and LLM agents like the prototype behind Clarno.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="Affan_Basra_Resume.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            Download CV
+          </a>
+          <a class="btn btn-ghost" href="#contact">Start a project</a>
+          <a class="btn btn-ghost" href="#experience"><span class="long">Hiring? See my experience</span><span class="short">I'm hiring</span></a>
+        </div>
       </div>
-    </div>
-    <div class="photo"><img src="affan.webp" alt="Affan Basra" width="640" height="800"></div>
-  </header>
-
-  <section id="highlights" aria-labelledby="hl-h">
-    <div class="head">
-      <span class="label">Highlights</span>
-      <h2 id="hl-h">At a glance</h2>
-    </div>
-    <ul class="hl">
-      <li><a href="#experience">
-        <div class="thumb logo"><img src="nust.webp" alt="NUST, National University of Sciences and Technology" style="object-fit:contain;object-position:center"></div>
-        <div class="body"><span class="k">Education</span><span class="t">BS Data Science, NUST</span><span class="d">National University of Sciences and Technology, Islamabad. 2023 to 2027.</span><span class="go">See experience →</span></div>
-      </a></li>
-      <li><a href="#sports">
-        <div class="thumb"><img src="statrankings-epa.webp" alt=""></div>
-        <div class="body"><span class="k">Paid clients</span><span class="t">StatRankings and DFS Army</span><span class="d">NFL and NBA data pipelines for two US sports data companies.</span><span class="go">Read case study →</span></div>
-      </a></li>
-      <li><a href="#clarno">
-        <div class="thumb"><img src="clarno-card.webp" alt=""></div>
-        <div class="body"><span class="k">AI product</span><span class="t">Early prototype of Clarno</span><span class="d">LLM agent pipeline at Aawaz AI that grew into their founder research product.</span><span class="go">Read case study →</span></div>
-      </a></li>
-      <li><a href="#pipelineguard">
-        <div class="thumb"><img src="pipelineguard-playground.webp" alt=""></div>
-        <div class="body"><span class="k">Live app</span><span class="t">PipelineGuard</span><span class="d">Kafka stream processor that redacts personal data. 509 tests in CI.</span><span class="go">Read case study →</span></div>
-      </a></li>
-    </ul>
-    <div class="stats">
-      <div class="stat"><span class="num">10K+</span><p>rows a week loaded for US sports data clients</p></div>
-      <div class="stat"><span class="num">39 s → 34 ms</span><p>dashboard query after one index fix</p></div>
-      <div class="stat"><span class="num">1,267/s</span><p>records redacted by PipelineGuard after micro-batching, about 180x faster</p></div>
-    </div>
-  </section>
+      <button class="photo js-play" type="button" id="play-intro" aria-label="Play my 60-second intro video">
+        <img src="affan.webp" alt="Affan Basra" width="640" height="800">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><span class="play-text">Watch my 60-second intro</span></span>
+      </button>
+      <div class="q hero-query" id="q">
+        <div class="q-bar"><i></i><i></i><i></i><span>psql: affan@portfolio</span></div>
+        <div class="q-body" aria-live="off"><div><span class="q-prompt">portfolio=#</span> <span id="typed"></span><span class="q-cursor" id="cursor"></span></div><div class="q-out" id="out"></div></div>
+      </div>
+    </header>
+  </div>
 
   <section id="work" aria-labelledby="work-h">
-    <div class="head">
-      <span class="label">Case studies</span>
-      <h2 id="work-h">Selected work</h2>
-    </div>
-    <div class="cases">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="work-h">Selected work</h2>
+        <p>Paid client work and live projects. Open any card for the full story.</p>
+      </div>
+      <div class="projects">
 
-      <article class="case" id="sports">
-        <div class="case-text">
-          <div class="meta"><span>Data Engineer (contract)</span><span>ByteSquad</span><span>Jul 2025 to Aug 2026</span></div>
-          <h3>NFL and NBA stats pipelines for StatRankings and DFS Army</h3>
-          <dl>
-            <div><dt>Problem</dt><dd>Two US sports data companies needed fresh NFL and NBA stats in their databases on a fixed schedule, with no bad rows reaching their sites.</dd></div>
-            <div><dt>What I built</dt><dd>ETL pipelines in Python (Polars) loading into PostgreSQL on AWS RDS, on daily and weekly schedules. Schema checks on every load (NOT NULL, type, unique and CHECK constraints), so bad loads failed before reaching client tables, plus Slack and email failure alerts. I ran DFS Army's production database (tables, indexes, backups, monitoring) and worked directly with both clients.</dd></div>
-            <div><dt>Hard part</dt><dd>A wrong stat showed up on a client site. I traced it from the front end back to undocumented empty fields in a source API, and rebuilt the stat from a second API.</dd></div>
-          </dl>
-          <div class="result"><b>10K+ rows/week</b><span class="muted">daily and weekly runs, 2 projects delivered end to end</span></div>
-          <div class="chips"><span class="chip">Python</span><span class="chip">Polars</span><span class="chip">R · nflfastR</span><span class="chip">SQL</span><span class="chip">PostgreSQL</span><span class="chip">AWS RDS</span></div>
-          <div class="links-row"><a href="https://statrankings.com/" target="_blank" rel="noopener">statrankings.com</a><a href="https://www.dfsarmy.com/" target="_blank" rel="noopener">dfsarmy.com</a></div>
-        </div>
-        <figure class="figure">
-          <img src="statrankings-epa.webp" alt="StatRankings NFL advanced stats page showing EPA per play rankings" width="1400" height="724">
-          <img src="dfsarmy-research.webp" alt="DFS Army NFL research station with DraftKings and FanDuel salaries and projections" width="1400" height="723">
-          <figcaption class="cap">StatRankings advanced stats and the DFS Army research station, both fed by the pipelines.</figcaption>
-        </figure>
-      </article>
+        <a class="pcard" href="sports-pipelines.html">
+          <div class="shot"><img src="statrankings-epa.webp" alt="" width="1400" height="724" loading="lazy"></div>
+          <div class="body">
+            <span class="tag">Paid client work</span>
+            <div class="hook">10K+ rows a week<span>loaded on schedule for two US sports data companies</span></div>
+            <h3>NFL and NBA pipelines for StatRankings and DFS Army</h3>
+            <p>Polars ETL into PostgreSQL on AWS, with checks that stop bad rows before they reach the sites.</p>
+            <span class="more">Read case study</span>
+          </div>
+        </a>
 
-      <article class="case" id="clarno">
-        <div class="case-text">
-          <div class="meta"><span>ML / Data Engineer</span><span>Aawaz AI</span><span>Jun to Aug 2025</span></div>
-          <h3>The early prototype behind Clarno</h3>
-          <dl>
-            <div><dt>Problem</dt><dd>Founders needed a fast way to research competitors and turn the findings into business ideas.</dd></div>
-            <div><dt>What I built</dt><dd>A ReAct agent in LangChain with tool calling and REST APIs for competitor research, reaching 90% task accuracy. A multi-step LLM workflow with Gemini and Django for marketing strategy, which cut manual effort by 75%. RAG retrieval over document stores and conversation caching.</dd></div>
-            <div><dt>Where it went</dt><dd>This early prototype grew into Clarno, the AI product Aawaz AI now offers to help founders decide what to build.</dd></div>
-          </dl>
-          <div class="result"><b>90%</b><span class="muted">task accuracy for the research agent</span></div>
-          <div class="chips"><span class="chip">LangChain</span><span class="chip">ReAct agent</span><span class="chip">Gemini</span><span class="chip">RAG</span><span class="chip">Django</span><span class="chip">Python</span></div>
-        </div>
-        <figure class="figure">
-          <img src="clarno-card.webp" alt="Clarno, an AI startup simulation product from Aawaz AI" width="1400" height="664">
-          <img src="clarno-site.webp" alt="Clarno website: find the version of your idea people will pay for" width="1400" height="718">
-          <figcaption class="cap">Clarno today. I worked on the early prototype it grew from.</figcaption>
-        </figure>
-      </article>
+        <a class="pcard" href="pipelineguard.html">
+          <div class="shot"><img src="pipelineguard-playground.webp" alt="" width="1400" height="728" loading="lazy"></div>
+          <div class="body">
+            <span class="tag">Live app, open source</span>
+            <div class="hook">1,267 records/s<span>personal data found and redacted, about 180x faster after micro-batching</span></div>
+            <h3>PipelineGuard</h3>
+            <p>A Kafka stream processor that catches ID numbers, IBANs, phones and names before they enter a pipeline.</p>
+            <span class="more">Read case study</span>
+          </div>
+        </a>
 
-      <article class="case" id="pipelineguard">
-        <div class="case-text">
-          <div class="meta"><span>Solo build</span><span>Live app</span><span>Open source</span></div>
-          <h3>PipelineGuard: finds personal data before it enters a pipeline</h3>
-          <dl>
-            <div><dt>Problem</dt><dd>Pipelines often copy personal data such as ID numbers, phones, IBANs and emails into places it should never be.</dd></div>
-            <div><dt>What I built</dt><dd>A Kafka stream processor with two layers: rules for CNIC, IBAN (mod-97 check), phone and email, then a GLiNER encoder for names and addresses. A PostgreSQL audit trail stores the entity type, span and confidence, never the value. Delivery is at-least-once with idempotent writes: no loss or duplication across a 2,500-message crash-and-replay test.</dd></div>
-            <div><dt>Results</dt><dd>96.0% address coverage on 2,786 real OpenStreetMap addresses after comparing 4 encoder models. Model memory cut from 1,780 MB to 845 MB with bf16 at unchanged coverage. 509 tests run in GitHub Actions.</dd></div>
-          </dl>
-          <div class="result"><b>1,267 records/s</b><span class="muted">after micro-batching, about 180x faster</span></div>
-          <div class="chips"><span class="chip">Python</span><span class="chip">Kafka</span><span class="chip">GLiNER</span><span class="chip">PostgreSQL</span><span class="chip">GitHub Actions</span><span class="chip">Docker</span><span class="chip">Streamlit</span></div>
-          <div class="links-row"><a href="https://pipelineguard-g8rdu5ebpuxtq4bimlouyz.streamlit.app/" target="_blank" rel="noopener">Open live demo</a><a href="https://github.com/AffanBasra/PipelineGuard" target="_blank" rel="noopener">Code on GitHub</a></div>
-        </div>
-        <figure class="figure">
-          <img src="pipelineguard-playground.webp" alt="PipelineGuard playground: a memo with a name, CNIC, IBAN and phone highlighted and redacted" width="1400" height="728">
-          <img src="pipelineguard-batch.webp" alt="PipelineGuard batch scan tab with model provenance details" width="1400" height="724">
-          <figcaption class="cap">The live app: single-memo scan and batch file scan. All values are synthetic.</figcaption>
-        </figure>
-      </article>
+        <a class="pcard" href="clarno.html">
+          <div class="shot"><img src="clarno-card.webp" alt="" width="1400" height="664" loading="lazy"></div>
+          <div class="body">
+            <span class="tag">AI product</span>
+            <div class="hook">Became a product<span>my agent prototype grew into Clarno at Aawaz AI</span></div>
+            <h3>The early prototype behind Clarno</h3>
+            <p>A LangChain research agent with 90% task accuracy, built to help founders decide what to build.</p>
+            <span class="more">Read case study</span>
+          </div>
+        </a>
 
-      <article class="case" id="tuning">
-        <div class="case-text">
-          <div class="meta"><span>Client project + own demo</span><span>PostgreSQL</span></div>
-          <h3>A safe Postgres migration and query tuning</h3>
-          <dl>
-            <div><dt>Migration</dt><dd>Moved a startup's production database from Supabase to Neon (PostgreSQL 17) with pg_dump and pg_restore. Cleaned stale data first, verified all 11 tables by row counts and checksums, and cut over at night with a brief write pause. No data lost, rollback in about 2 minutes.</dd></div>
-            <div><dt>Query tuning</dt><dd>On my own 4M-row demo database, I traced slow dashboard queries with EXPLAIN ANALYZE and fixed them with a covering index and rewrites. Every fix returned identical results.</dd></div>
-          </dl>
-          <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">EXPLAIN ANALYZE</span><span class="chip">Indexing</span><span class="chip">pg_dump</span><span class="chip">SQLAlchemy</span><span class="chip">Alembic</span><span class="chip">Docker</span></div>
-        </div>
-        <figure class="figure" style="padding:18px">
-          <table>
-            <thead><tr><th>Query</th><th>Before</th><th>After</th></tr></thead>
-            <tbody>
-              <tr><td>3-table dashboard</td><td>39 s</td><td class="fast">34 ms</td></tr>
-              <tr><td>Second query</td><td>450 ms</td><td class="fast">15 ms</td></tr>
-              <tr><td>Third query</td><td>135 ms</td><td class="fast">5.6 ms</td></tr>
-            </tbody>
-          </table>
-          <figcaption class="cap">4M-row demo database, same results before and after.</figcaption>
-        </figure>
-      </article>
+        <a class="pcard" href="postgres-tuning.html">
+          <div class="shot table">
+            <table class="mini"><tbody><tr><td>3-table dashboard</td><td>39 s to 34 ms</td></tr>
+              <tr><td>Second query</td><td>450 to 15 ms</td></tr>
+              <tr><td>Third query</td><td>135 to 5.6 ms</td></tr></tbody>
+            </table>
+          </div>
+          <div class="body">
+            <span class="tag">Client project and demo</span>
+            <div class="hook">39 s to 34 ms<span>dashboard query after one index fix</span></div>
+            <h3>A safe Postgres migration and query tuning</h3>
+            <p>Moved a startup's production database with zero data lost, then tuned slow queries on a 4M-row demo.</p>
+            <span class="more">Read case study</span>
+          </div>
+        </a>
 
+      </div>
     </div>
   </section>
 
   <section id="praise" aria-labelledby="praise-h">
-    <div class="head">
-      <span class="label">What people say</span>
-      <h2 id="praise-h">From a client and a mentor</h2>
-    </div>
-    <div class="quotes">
-      <figure class="quote">
-        <blockquote>Affan, you do excellent work and you're easy to work with.</blockquote>
-        <figcaption><b>US client</b><span>Sports data pipelines</span></figcaption>
-      </figure>
-      <figure class="quote">
-        <blockquote>Affan interned on my team during the early R&amp;D phase of our idea validation product, and his work set a fantastic foundation for the project. He took full ownership of researching and prototyping early AI agent concepts, showing sharp technical curiosity and fast execution. It was a pleasure mentoring him, and I'm confident he'll thrive in any AI-focused role.</blockquote>
-        <figcaption><b>Ashar Mehmood</b><span>Founder, LexamAI · mentored Affan at Aawaz AI · <a href="https://www.linkedin.com/in/affan-basra-3038372a6" target="_blank" rel="noopener">LinkedIn recommendation</a></span></figcaption>
-      </figure>
+    <div class="wrap">
+      <div class="head"><h2 id="praise-h">Recommendations</h2></div>
+      <div class="quotes">
+        <figure class="quote">
+          <blockquote>Affan, you do excellent work and you're easy to work with.</blockquote>
+          <figcaption><b>US client</b>Sports data pipelines</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>His work set a fantastic foundation for the project. He took full ownership of researching and prototyping early AI agent concepts, showing sharp technical curiosity and fast execution.</blockquote>
+          <figcaption><b>Ashar Mehmood</b>Founder, LexamAI. Mentored Affan at Aawaz AI. <a href="https://www.linkedin.com/in/affan-basra-3038372a6" target="_blank" rel="noopener">Read on LinkedIn</a></figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
   <section id="hire" aria-labelledby="hire-h">
-    <div class="head">
-      <span class="label">Work with me</span>
-      <h2 id="hire-h">Three ways to work together</h2>
-      <p class="lead">Pick what fits your team. Every option starts with a short written plan.</p>
-    </div>
-    <div class="ways">
-      <div class="way main">
-        <span class="k">Freelance project</span>
-        <h3>Start with a one-week paid pilot</h3>
-        <p>A small fixed-scope task so you can check my work at low risk.</p>
-        <ul><li>A data sync into PostgreSQL with checks and alerts</li><li>A health check of your slowest queries</li><li>A cleanup, migration or reporting table</li></ul>
-        <a class="btn btn-primary" href="#contact">Start a project</a>
+    <div class="wrap">
+      <div class="head">
+        <h2 id="hire-h">Work with me</h2>
+        <p>Pick what fits your team. Every option starts with a short written plan.</p>
       </div>
-      <div class="way">
-        <span class="k">Ongoing</span>
-        <h3>Part-time data engineer</h3>
-        <p>Monthly or hourly help after a first project goes well.</p>
-        <ul><li>Keep pipelines running and fix breaks</li><li>New data sources and tables</li><li>Database care and tuning</li></ul>
-        <a class="btn btn-ghost" href="#contact">Ask about availability</a>
+      <div class="ways">
+        <a class="way" href="#contact">
+          <span class="k">Freelance project</span>
+          <h3>Start with a one-week paid pilot</h3>
+          <p>A small fixed task, like a data sync into PostgreSQL or a check of your slowest queries.</p>
+          <span class="btn btn-ghost">Start a project</span>
+        </a>
+        <a class="way" href="#contact">
+          <span class="k">Ongoing</span>
+          <h3>Part-time data engineer</h3>
+          <p>Keep pipelines running, add new data sources, and look after your database.</p>
+          <span class="btn btn-ghost">Ask about availability</span>
+        </a>
+        <a class="way" href="#experience">
+          <span class="k">Long-term role</span>
+          <h3>Full-time or contract-to-hire</h3>
+          <p>Remote data engineering or ML data roles, with overlap for US and EU teams.</p>
+          <span class="btn btn-ghost">See my experience</span>
+        </a>
       </div>
-      <div class="way">
-        <span class="k">Long-term role</span>
-        <h3>Full-time or contract-to-hire</h3>
-        <p>Remote data engineering or ML data roles, with overlap for US and EU teams.</p>
-        <ul><li>Pipelines and data quality</li><li>PostgreSQL and AWS</li><li>LLM data tooling</li></ul>
-        <a class="btn btn-ghost" href="#experience">See my experience</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="how" aria-labelledby="how-h">
-    <div class="head">
-      <span class="label">How I work</span>
-      <h2 id="how-h">On my own or inside your team</h2>
-      <p class="lead">I've owned client projects end to end, and I've built inside a startup R&amp;D team and a research lab. Either way, the habits are the same.</p>
-    </div>
-    <div class="howgrid">
-      <div><span class="k">Solo</span><h3>I own it end to end</h3><p>On both sports data contracts I worked directly with the US clients, from spec to delivery, and ran their production database myself.</p></div>
-      <div><span class="k">In a team</span><h3>I fit your workflow</h3><p>Pull requests with tests, code review, and docs your team can read. At Aawaz AI my prototype became the base the team built the product on.</p></div>
-      <div><span class="k">Communication</span><h3>No surprises</h3><p>A short written plan before I start, an update at every milestone, and replies within a day. UTC+5 overlaps EU hours and US mornings.</p></div>
-      <div><span class="k">Reliability</span><h3>Checks before production</h3><p>Schema checks on every load, failure alerts, and a tested rollback before any risky change.</p></div>
+      <ul class="habits">
+        <li><b>I own it end to end</b>From spec to delivery, directly with the client.</li>
+        <li><b>I fit your team</b>Pull requests with tests, reviews and clear docs.</li>
+        <li><b>No surprises</b>Written plan first, updates at every milestone.</li>
+        <li><b>Checks before production</b>Schema checks, alerts and a tested rollback.</li>
+      </ul>
     </div>
   </section>
 
   <section id="experience" aria-labelledby="exp-h">
-    <div class="about">
-      <div class="about-text">
-        <span class="label">Experience</span>
-        <h2 id="exp-h">A data engineer who ships</h2>
-        <p class="muted">I'm finishing a BS in Data Science at NUST (2027) while working remote-first. My main work is data pipelines and PostgreSQL. My second strength is ML and LLM systems, from research at the NUST Deep Learning Lab to an agent prototype that became a product.</p>
-        <p class="muted"><b style="color:var(--ink)">Certifications</b> (DeepLearning.AI): Machine Learning in Production, Data Engineering Specialization, Deep Learning Specialization.<br><b style="color:var(--ink)">Languages:</b> English (fluent), Urdu (native).</p>
-        <a class="btn btn-ghost cvbtn" href="Affan_Basra_Resume.pdf" target="_blank" rel="noopener">Download CV (PDF)</a>
-        <div class="skills">
-          <span class="label">Tools I use</span>
-          <div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">PostgreSQL</span><span class="chip">Polars</span><span class="chip">pandas</span><span class="chip">AWS RDS</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">pytest</span><span class="chip">Kafka</span><span class="chip">LangChain</span><span class="chip">LangGraph</span><span class="chip">RAG</span><span class="chip">Hugging Face</span><span class="chip">Django</span><span class="chip">Apify</span></div>
-        </div>
+    <div class="wrap exp">
+      <div class="exp-side">
+        <h2 id="exp-h">Experience</h2>
+        <p>Final-year BS Data Science at NUST, working remote-first. Pipelines and PostgreSQL first, ML and LLM systems second.</p>
+        <a class="cvcard" href="Affan_Basra_Resume.pdf" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9 14l3 3 3-3"/></svg></span>
+          <span><b>Affan Basra CV</b><span>PDF, 1 page, 54 KB</span></span>
+          <span class="dl">Download</span>
+        </a>
+        <div class="small-h">Tools I use</div>
+        <div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">PostgreSQL</span><span class="chip">Polars</span><span class="chip">AWS RDS</span><span class="chip">Kafka</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">LangChain</span><span class="chip">RAG</span></div>
+        <p class="muted" style="font-size:.92rem">DeepLearning.AI certificates in Data Engineering, Deep Learning and ML in Production.</p>
       </div>
-      <ol class="cv" aria-label="Experience and education">
-        <li><span class="when">After Aug 2025 · Client project</span><h3>Database migration, Supabase to Neon</h3><p>Production startup database moved with no data lost. All 11 tables verified by row counts and checksums, about 2-minute rollback.</p></li>
-        <li><span class="when">Jul 2025 to Aug 2026</span><h3>Data Engineer (contract), ByteSquad</h3><p>ETL pipelines for US clients StatRankings and DFS Army. Polars, PostgreSQL on AWS RDS, schema checks and failure alerts on every load.</p></li>
-        <li><span class="when">Jun to Aug 2025</span><h3>ML / Data Engineer, Aawaz AI</h3><p>Built the early LangChain agent prototype that became Clarno. 90% task accuracy, 75% less manual effort on strategy work.</p></li>
-        <li><span class="when">Jun to Aug 2024</span><h3>ML / AI Intern, DLL-TUKL (NUST)</h3><p>Deep learning text-to-speech pipeline with 97% speech accuracy. Tuned a chat LLM for speed, cutting wait times by 35%.</p></li>
-        <li><span class="when">2023 to 2027</span><h3>BS Data Science, NUST</h3><p>National University of Sciences and Technology, Islamabad.</p></li>
+      <ol class="timeline">
+        <li><span class="when">2025 to 2026</span><div><h3>Data Engineer (contract), ByteSquad</h3><p>Pipelines for US clients StatRankings and DFS Army.</p></div></li>
+        <li><span class="when">2025</span><div><h3>Database migration, client project</h3><p>Supabase to Neon with zero data lost.</p></div></li>
+        <li><span class="when">Summer 2025</span><div><h3>ML / Data Engineer, Aawaz AI</h3><p>Agent prototype that became Clarno.</p></div></li>
+        <li><span class="when">Summer 2024</span><div><h3>ML / AI Intern, DLL-TUKL, NUST</h3><p>Text-to-speech pipeline, 97% speech accuracy.</p></div></li>
+        <li><span class="when">2023 to 2027</span><div><h3>BS Data Science, NUST</h3><p>National University of Sciences and Technology.</p></div></li>
       </ol>
     </div>
   </section>
 
   <section id="contact" aria-labelledby="contact-h">
-    <div class="head">
-      <span class="label">Contact</span>
-      <h2 id="contact-h">Let's talk about your data</h2>
-      <p class="lead">Send me what's broken, what you want to build, or the role you're hiring for. I'll reply within a day.</p>
-    </div>
-    <div class="availbar"><span>Open to freelance and long-term roles</span><span>UTC+5, Islamabad</span><span>Replies within a day</span></div>
-    <div class="contact">
-      <div class="ccard"><span class="k">Email</span><span class="v" id="email">affanbasra12@gmail.com</span><button class="copy" type="button" id="copy-email">Copy email</button></div>
-      <div class="ccard"><span class="k">Upwork</span><a class="v" href="https://www.upwork.com/freelancers/~01e896744d765ada66" target="_blank" rel="noopener">View profile</a></div>
-      <div class="ccard"><span class="k">LinkedIn</span><a class="v" href="https://www.linkedin.com/in/affan-basra-3038372a6" target="_blank" rel="noopener">Affan Basra</a></div>
-      <div class="ccard"><span class="k">GitHub</span><a class="v" href="https://github.com/AffanBasra" target="_blank" rel="noopener">AffanBasra</a></div>
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2 id="contact-h">Let's talk about your data</h2>
+          <p>Send me what's broken, what you want to build, or the role you're hiring for. I reply within a day, from UTC+5.</p>
+        </div>
+        <div class="right">
+          <div class="email"><a id="email" href="mailto:affanbasra12@gmail.com">affanbasra12@gmail.com</a><button class="copy" type="button" id="copy-email">Copy</button></div>
+          <ul class="social">
+            <li><a href="https://www.linkedin.com/in/affan-basra-3038372a6" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.064 2.064 0 1 1 0-4.128 2.064 2.064 0 0 1 0 4.128zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a></li>
+            <li><a href="https://www.upwork.com/freelancers/~01e896744d765ada66" target="_blank" rel="noopener" aria-label="Upwork"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg></a></li>
+            <li><a href="https://github.com/AffanBasra" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+          <li><a href="https://x.com/AffanBasra12" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a></li>
+            <li><a href="https://youtu.be/aiphAPT_cVM" target="_blank" rel="noopener" aria-label="60-second intro video on YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
-</div>
 </main>
-<footer class="pad"><div class="wrap">Affan Basra · Data and ML engineer · Islamabad, Pakistan · <a href="https://youtu.be/aiphAPT_cVM" target="_blank" rel="noopener">60-second intro video</a></div></footer>
+<footer><div class="wrap"><span>Affan Basra, data and ML engineer, Pakistan</span><a href="https://youtu.be/aiphAPT_cVM" target="_blank" rel="noopener">Watch my 60-second intro</a></div></footer>
+
+<dialog class="video" id="intro-dialog" aria-labelledby="video-title">
+  <h2 id="video-title" class="sr-only">60-second intro video</h2>
+  <div class="video-box">
+    <button class="video-close" type="button" id="close-intro" aria-label="Close video">&times;</button>
+    <div class="video-frame" id="video-frame"></div>
+    <a class="video-alt" href="https://youtu.be/aiphAPT_cVM" target="_blank" rel="noopener">Video not playing? Watch it on YouTube</a>
+  </div>
+</dialog>
 
 <script>
 document.getElementById('copy-email').addEventListener('click', function(){
-  var b = this, el = document.getElementById('email'), t = el.textContent;
-  function done(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy email'; }, 1800); }
-  function fallback(){ var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected, press copy'; }
-  try { navigator.clipboard.writeText(t).then(done, fallback); } catch(e){ fallback(); }
+  var b = this, t = document.getElementById('email').textContent;
+  function done(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy'; }, 1800); }
+  try { navigator.clipboard.writeText(t).then(done, function(){ b.textContent = 'Copy failed'; }); } catch(e){ b.textContent = 'Copy failed'; }
 });
 
 (function(){
-  var root=document.documentElement, btn=document.getElementById('themebtn'), lab=document.getElementById('themelabel');
-  function isDark(){ var t=root.getAttribute('data-theme'); if(t) return t==='dark'; return !matchMedia('(prefers-color-scheme: light)').matches; }
-  function paint(){ lab.textContent = isDark() ? 'Light' : 'Dark'; }
-  try{ var saved=localStorage.getItem('theme'); if(saved) root.setAttribute('data-theme',saved); }catch(e){}
-  paint();
-  btn.addEventListener('click',function(){ var next=isDark()?'light':'dark'; root.setAttribute('data-theme',next); try{localStorage.setItem('theme',next);}catch(e){} paint(); });
-  matchMedia('(prefers-color-scheme: light)').addEventListener('change',paint);
+  var d=document.getElementById('intro-dialog'), f=document.getElementById('video-frame');
+  function open(){
+    if(location.protocol==='file:'){ window.open('https://youtu.be/aiphAPT_cVM','_blank','noopener'); return; }
+    f.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/aiphAPT_cVM?autoplay=1&rel=0&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Affan Basra 60-second intro" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    if(d.showModal){ d.showModal(); } else { window.open('https://youtu.be/aiphAPT_cVM','_blank'); }
+  }
+  function close(){ d.close(); }
+  document.querySelectorAll('.js-play').forEach(function(b){ b.addEventListener('click',open); });
+  document.getElementById('close-intro').addEventListener('click',close);
+  d.addEventListener('click',function(e){ if(e.target===d) close(); });
+  d.addEventListener('close',function(){ f.innerHTML=''; });
+})();
+
+(function(){
+  var queries=[
+    {sql:'SELECT * FROM affan;', cols:['key','value'], rows:[
+      ['role','Data engineer, ML on the side'],
+      ['based_in','Lahore, Pakistan'],
+      ['ships','Pipelines, Postgres, LLM tools'],
+      ['clients','StatRankings, DFS Army'],
+      ['studying','BS Data Science, NUST (2027)'],
+      ['fuel','chai'],
+      ['status','open to work']]},
+    {sql:'SELECT project, result FROM work ORDER BY impact DESC LIMIT 3;', cols:['project','result'], rows:[
+      ['sports_pipelines','10K+ rows/week, 2 US clients'],
+      ['pipelineguard','1,267 records/s, 509 tests'],
+      ['postgres_tuning','39 s to 34 ms']]},
+    {sql:"SELECT open_to FROM availability WHERE status = 'now';", cols:['open_to'], rows:[
+      ['freelance projects'],['part-time data engineering'],['full-time remote roles']]}
+  ];
+  var typed=document.getElementById('typed'), out=document.getElementById('out'), cursor=document.getElementById('cursor'), card=document.getElementById('q');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, visible=false, qi=0, timer=null;
+  function pad(x,n){ x=String(x); while(x.length<n) x+=' '; return x; }
+  function esc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function render(q,upto){
+    var w=q.cols.map(function(c,i){ return Math.max(c.length, Math.max.apply(null,q.rows.map(function(r){return r[i].length;}))); });
+    var h='<span class="k"> '+q.cols.map(function(c,i){return pad(c,w[i]);}).join(' | ')+'\n'+w.map(function(n){return '-'.repeat(n+2);}).join('+')+'</span>\n';
+    for(var r=0;r<upto;r++) h+=' '+q.rows[r].map(function(v,i){ return (i===0&&q.cols.length>1?'<span class="k">':'<span class="hi">')+esc(pad(v,w[i]))+'</span>'; }).join(' | ')+'\n';
+    if(upto===q.rows.length) h+='<span class="muted2">('+q.rows.length+' rows)</span>';
+    out.innerHTML=h;
+  }
+  function wait(ms,fn){ timer=setTimeout(function tick(){ if(!visible){ timer=setTimeout(tick,300); return; } fn(); },ms); }
+  function run(){
+    var q=queries[qi], i=0; typed.textContent=''; out.innerHTML=''; cursor.style.display='inline-block';
+    if(reduce){ typed.textContent=q.sql; cursor.style.display='none'; render(q,q.rows.length); return; }
+    (function type(){
+      if(i<q.sql.length){ typed.textContent+=q.sql[i++]; wait(45+Math.random()*45,type); return; }
+      cursor.style.display='none'; var r=0;
+      (function line(){
+        render(q,r);
+        if(r<q.rows.length){ r++; wait(110,line); return; }
+        qi=(qi+1)%queries.length;
+        wait(4200,run);
+      })();
+    })();
+  }
+  new IntersectionObserver(function(es){ var was=visible; visible=es[0].isIntersecting; if(visible&&!was&&!timer) run(); },{threshold:.2}).observe(card);
 })();
 </script>
+<script src="site.js"></script>
 </body>
 </html>
