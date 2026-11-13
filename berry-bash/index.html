@@ -782,20 +782,26 @@ function killPeer(p){if(p){try{p.destroy()}catch(e){}}}
 function cleanName(n){n=(typeof n==='string'?n:'').replace(/[\u0000-\u001f]/g,'').trim().slice(0,10);return n||'Player'}
 function cleanMascot(m){return (typeof m==='number'&&m>=0&&m<8)?Math.floor(m):0}
 function newPid(){var s='';while(s.length<12)s+=Math.random().toString(36).slice(2);return s.slice(0,12)}
-function sget(k){var v=null;try{v=sessionStorage.getItem(k)}catch(e){}if(v==null&&!window.__bbNoLocal){try{v=localStorage.getItem(k)}catch(e){}}return v}
-function sset(k,v){try{sessionStorage.setItem(k,v)}catch(e){}try{localStorage.setItem(k,v)}catch(e){}}
-function sdel(k){try{sessionStorage.removeItem(k)}catch(e){}try{localStorage.removeItem(k)}catch(e){}}
+function ssGet(k){try{return sessionStorage.getItem(k)}catch(e){return null}}
 var ME={pid:'',name:'',mascot:0};
-ME.pid=sget('bb-pid')||'';
-if(!/^[a-z0-9]{6,16}$/.test(ME.pid))ME.pid=newPid();sset('bb-pid',ME.pid);
+ME.pid=ssGet('bb-pid')||'';
+if(!/^[a-z0-9]{6,16}$/.test(ME.pid))ME.pid=newPid();try{sessionStorage.setItem('bb-pid',ME.pid)}catch(e){}
 try{var _pf=JSON.parse(localStorage.getItem('bb-me')||'{}');ME.name=typeof _pf.name==='string'?_pf.name:'';ME.mascot=cleanMascot(_pf.mascot)}catch(e){}
 var ON={code:'',R:null,host:false,peer:null,conn:null,conns:{},status:'off',lastHeard:0,lostSince:0,retryT:0,iv:0,outbox:[],myScore:null,key:'',sig:'',joining:false,claiming:false};
 var CHAT={open:false,readId:null,toastId:undefined,toastT:0};
 
 function saveMe(){try{localStorage.setItem('bb-me',JSON.stringify({name:ME.name,mascot:ME.mascot}))}catch(e){}}
-function store(){if(!ON.code||!ON.R){sdel(SKEY);return}try{sset(SKEY,JSON.stringify({code:ON.code,R:ON.R,outbox:ON.outbox,readId:CHAT.readId,t:Date.now()}))}catch(e){}}
-function loadSession(){try{var s=JSON.parse(sget(SKEY)||'null');if(!s||typeof s.code!=='string'||!validR(s.R)||Date.now()-(s.t||0)>TM.expire)return null;return s}catch(e){return null}}
-function clearSession(){sdel(SKEY)}
+/* saved room: this tab's copy in sessionStorage, plus a copy per player in localStorage so a closed tab can come back */
+function store(){if(!ON.code||!ON.R){clearSession();return}var v;try{v=JSON.stringify({pid:ME.pid,code:ON.code,R:ON.R,outbox:ON.outbox,readId:CHAT.readId,t:Date.now()})}catch(e){return}
+  try{sessionStorage.setItem(SKEY,v)}catch(e){}if(!window.__bbNoLocal){try{localStorage.setItem(SKEY+':'+ME.pid,v)}catch(e){}}}
+function okSess(s){return !!(s&&typeof s.code==='string'&&validR(s.R)&&Date.now()-(s.t||0)<TM.expire)}
+/* this tab's own saved room first; a room saved by another tab only if that tab has been quiet for a while (closed or killed) */
+function loadSession(){var s=null;try{s=JSON.parse(ssGet(SKEY)||'null')}catch(e){}if(okSess(s))return s;
+  if(window.__bbNoLocal)return null;var best=null;
+  try{for(var i=localStorage.length-1;i>=0;i--){var k=localStorage.key(i);if(!k||k.indexOf(SKEY+':')!==0)continue;var x=null;try{x=JSON.parse(localStorage.getItem(k))}catch(e){}
+    if(!okSess(x)){localStorage.removeItem(k);continue}if(Date.now()-x.t>3*TM.ping&&(!best||x.t>best.t))best=x}}catch(e){}
+  return best}
+function clearSession(){try{sessionStorage.removeItem(SKEY)}catch(e){}try{localStorage.removeItem(SKEY+':'+ME.pid)}catch(e){}}
 function validG(g){return !!(g&&typeof g==='object'&&typeof g.m==='string'&&typeof g.phase==='string'&&(g.phase==='lobby'||(Array.isArray(g.players)&&g.players.length>0&&Array.isArray(g.order)&&(g.phase==='final'||GAMES[g.order[g.ri]])&&g.tot&&g.hist)))}
 function validR(R){return !!(R&&typeof R==='object'&&typeof R.code==='string'&&typeof R.hostPid==='string'&&R.members&&typeof R.members==='object'&&R.sc&&typeof R.sc==='object'&&Array.isArray(R.chat)&&validG(R.g))}
 
@@ -826,7 +832,8 @@ function hostConn(c){
   function gone(left){if(pid&&ON.conns[pid]===c){delete ON.conns[pid];var m=ON.R&&ON.R.members[pid];if(m){m.online=false;m.off=left?Date.now()-TM.dropWait-1:Date.now()}hostChanged()}try{c.close()}catch(e){}}
   c._gone=gone;
   c.on('data',function(d){if(!ON.host||!d||typeof d!=='object')return;c._seen=Date.now();
-    if(d.t==='hello'){if(typeof d.pid!=='string'||!/^[a-z0-9]{6,16}$/.test(d.pid)||d.pid===ME.pid||(pid&&pid!==d.pid))return;
+    if(d.t==='hello'){if(typeof d.pid!=='string'||!/^[a-z0-9]{6,16}$/.test(d.pid)||(pid&&pid!==d.pid))return;
+      if(d.pid===ME.pid){try{c.send({t:'dupe'})}catch(e){}setTimeout(function(){try{c.close()}catch(e){}},300);return}
       if(!ON.conns[d.pid]&&Object.keys(ON.conns).length>=8){try{c.close()}catch(e){}return}
       pid=d.pid;var old=ON.conns[pid];ON.conns[pid]=c;if(old&&old!==c){try{old.close()}catch(e){}}hostApply(pid,d);return}
     if(!pid)return;
@@ -898,8 +905,9 @@ function guestData(d){if(!d||typeof d!=='object')return;
     if(ms&&g2.phase==='play'&&ms.m===g2.m&&ms.ri===g2.ri&&!(have&&have.m===ms.m&&have.ri===ms.ri)&&!ON.outbox.some(function(o){return o.t==='score'})){ON.outbox.push(ms);guestSend(ms)}
     if(first)CHAT.toastId=undefined;
     store();renderAll();return}
-  if(d.t==='closed'){roomLost('The host closed the room.')}}
-function tick(){if(MODE!=='online'||!ON.code)return;var now=Date.now();
+  if(d.t==='closed'){roomLost('The host closed the room.')}
+  if(d.t==='dupe'){roomLost('This room is already open in another tab on this device.')}}
+function tick(){if(MODE!=='online'||!ON.code)return;var now=Date.now();if(ON.R)store();
   if(ON.host){Object.keys(ON.conns).forEach(function(p){var c=ON.conns[p];if(now-(c._seen||0)>TM.deadGuest&&c._gone)c._gone(false)});
     if(ON.R&&ON.R.g.phase==='play'&&hostCheckRound(false))hostChanged();
     if($('#s-wait').classList.contains('on'))drawWait(ON.R.g);return}
@@ -937,7 +945,7 @@ $('#on-join').onclick=function(){A.sfx('click');if(typeof window.Peer!=='functio
   leaveRoom(false);onStatus('Looking for room '+code+'...');setBusy(true);
   ON.code=code;ON.R=null;ON.joining=true;MODE='online';ON.lostSince=Date.now();setStatus('connecting');startLoop();guestConnect();
   var wait=setInterval(function(){if(ON.code!==code||MODE!=='online'){clearInterval(wait);setBusy(false);return}if(ON.R){clearInterval(wait);setBusy(false);onStatus('')}},300)};
-function resume(s){leaveRoom(false);ON.code=s.code;ON.R=s.R;ON.outbox=Array.isArray(s.outbox)?s.outbox.filter(function(o){return o&&(o.t==='chat'||o.t==='score')}).slice(-20):[];CHAT.readId=s.readId||null;CHAT.toastId=undefined;
+function resume(s){leaveRoom(false);if(typeof s.pid==='string'&&/^[a-z0-9]{6,16}$/.test(s.pid)&&s.pid!==ME.pid){ME.pid=s.pid;try{sessionStorage.setItem('bb-pid',ME.pid)}catch(e){}}ON.code=s.code;ON.R=s.R;ON.outbox=Array.isArray(s.outbox)?s.outbox.filter(function(o){return o&&(o.t==='chat'||o.t==='score')}).slice(-20):[];CHAT.readId=s.readId||null;CHAT.toastId=undefined;
   ON.outbox.forEach(function(o){if(o.t==='score')ON.myScore={t:'score',m:o.m,ri:o.ri,v:o.v}});
   var mm=s.R.members[ME.pid];if(mm){ME.name=cleanName(mm.name);ME.mascot=cleanMascot(mm.mascot)}
   MODE='online';ON.lostSince=Date.now();setStatus('connecting');startLoop();renderAll();
